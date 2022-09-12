@@ -1,0 +1,21 @@
+name: package
+
+on:
+  push:
+    tags:
+      - '**'
+
+  workflow_dispatch:
+
+env:
+  GITHUB_OAUTH: ${{ secrets.RELEASE_TOKEN }}
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: package
+        uses: bigwigsmods/packager@v2
