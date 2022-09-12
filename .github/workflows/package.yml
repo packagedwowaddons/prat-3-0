@@ -1,0 +1,31 @@
+name: package
+
+on:
+  push:
+    tags:
+      - '**'
+
+  workflow_run:
+    workflows:
+      - sync fork
+      - tag
+
+    types:
+      - completed
+
+  workflow_dispatch:
+
+env:
+  GITHUB_OAUTH: ${{ secrets.GITHUB_TOKEN }}
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+
+      - name: package
+        uses: bigwigsmods/packager@v2
